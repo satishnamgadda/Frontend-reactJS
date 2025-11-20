@@ -70,23 +70,31 @@ function App() {
   };
 
   return (
-    
+    <div className="App">
+      <header>
+        <h1>User Management System</h1>
+      </header>
       
-        User Management System
+      {error && <div className="error-message">{error}</div>}
       
-      
-      {error && {error}}
-      
-      
-        
+      <div className="container">
+        <UserForm
+          onSubmit={editingUser ? handleUpdate : handleCreate}
+          editingUser={editingUser}
+          onCancel={handleCancel}
+        />
         
         {loading ? (
-          Loading...
+          <p>Loading...</p>
         ) : (
-          
+          <UserList
+            users={users}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         )}
-      
-    
+      </div>
+    </div>
   );
 }
 

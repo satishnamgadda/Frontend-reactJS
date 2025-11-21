@@ -5,6 +5,7 @@ import UserList from './components/UserList';
 import './App.css';
 
 function App() {
+  console.log("API URL:", process.env.REACT_APP_API_URL);
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -71,29 +72,39 @@ function App() {
 
   return (
     <div className="App">
-      <header>
+      <header className="App-header">
         <h1>User Management System</h1>
       </header>
-      
-      {error && <div className="error-message">{error}</div>}
-      
-      <div className="container">
-        <UserForm
-          onSubmit={editingUser ? handleUpdate : handleCreate}
-          editingUser={editingUser}
-          onCancel={handleCancel}
-        />
-        
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <UserList
-            users={users}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
+
+      <main className="App-main">
+        {error && (
+          <div className="error-message">
+            {error}
+          </div>
         )}
-      </div>
+
+        <div className="content-container">
+          <div className="form-section">
+            <UserForm
+              editingUser={editingUser}  // ✅ FIXED PROP
+              onSubmit={editingUser ? handleUpdate : handleCreate}
+              onCancel={editingUser ? handleCancel : null}
+            />
+          </div>
+
+          <div className="list-section">
+            {loading ? (
+              <div className="loading">Loading...</div>
+            ) : (
+              <UserList
+                users={users}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            )}
+          </div>
+        </div>
+      </main>
     </div>
   );
 }

@@ -1,9 +1,11 @@
+// services/api.js
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+console.log('API Base URL:', API_BASE_URL); // Debug line
 
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -11,7 +13,6 @@ const api = axios.create({
 
 export const userService = {
   getAll: () => api.get('/users'),
-  getById: (id) => api.get(`/users/${id}`),
   create: (userData) => api.post('/users', userData),
   update: (id, userData) => api.put(`/users/${id}`, userData),
   delete: (id) => api.delete(`/users/${id}`),

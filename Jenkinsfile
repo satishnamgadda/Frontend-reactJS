@@ -12,7 +12,7 @@ pipeline {
         }
         stage('sonarqube') {
             steps {
-                withSonarQubeEnv('sonarqube') {
+                withSonarQubeEnv('SonarQube') {
                     sh """
                       ${tool 'SonarScanner'}/bin/sonar-scanner \
                       -Dsonar.projectKey=frontend-reactjs \

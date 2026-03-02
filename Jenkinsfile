@@ -44,5 +44,23 @@ pipeline {
                 }
             }
         }
+        stage('deploy') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker_cred',
+                         usernameVariable: 'USERNAME',
+                         passwordVariable: 'PASSWORD')]) {
+                sh """
+                    docker stop frontend-reactjs || true
+                    docker rm frontend-reactjs || true
+                    docker pull ${DOCKER_IMAGE}:${BUILD_NUMBER}
+                    docker run -d \
+                    --name frontend-reactjs \
+                    --restart unless-stopped \
+                    -p 3000:3000 \
+                    ${DOCKER_IMAGE}:${BUILD_NUMBER}
+                """
+            }
+        }
     }
+}
 }
